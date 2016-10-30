@@ -7,44 +7,40 @@ ArrayStack* createArrayStack(int size) {
 	ArrayStack *pReturn = NULL;
 	int i = 0;
 
-	if(size > 0) {
+	if (size > 0) {
 		pReturn = (ArrayStack *)malloc(sizeof(ArrayStack));
-		if(pReturn != NULL) {
+		if (pReturn != NULL) {
 			memset(pReturn, 0, sizeof(ArrayStack));
 			pReturn->maxElementCount = size;
+			pReturn->currentElementCount = 0;
 		}
 		else {
-			printf("¿À·ù, ¸Ş¸ğ¸® ÇÒ´ç, createArrayStack()\n");
+			printf("ì˜¤ë¥˜, ë©”ëª¨ë¦¬ í• ë‹¹, createArrayStack()\n");
 			return NULL;
-		}
-
-		pReturn->pElement = (ArrayStackNode *)malloc(sizeof(ArrayStackNode)*size);
-
-		if(pReturn->pElement != NULL) {
-			memset(pReturn, 0, sizeof(ArrayStackNode)*size);
-		}
-		else {
-			printf("¿À·ù, ¸Ş¸ğ¸® ÇÒ´ç2, createArrayStack()\n");
-			free(pReturn); return NULL;
 		}
 	}
 	else {
-		printf("¿À·ù, ½ºÅÃÀÇ Å©±â´Â 0ÀÌ»óÀÌ¾î¾ß ÇÕ´Ï´Ù.\n");
+		printf("ì˜¤ë¥˜, ìŠ¤íƒì˜ í¬ê¸°ëŠ” 0ì´ìƒì´ì–´ì•¼ í•©ë‹ˆë‹¤.\n");
 		return NULL;
 	}
+
+	pReturn->pElement = (ArrayStackNode *)malloc(sizeof(ArrayStackNode)*size);
+
 	return pReturn;
 }
 
 int pushAS(ArrayStack* pStack, ArrayStackNode element) {
-	int ret = FALSE, i = 0;
-	if(pStack != NULL) {
-		if(isArrayStackFull(pStack) == FALSE) {
+	int i = 0;
+	int ret = FALSE;
+	
+	if (pStack != NULL) {
+		if (isArrayStackFull(pStack) == FALSE) {
 			pStack->pElement[pStack->currentElementCount] = element;
 			pStack->currentElementCount++;
 			ret = TRUE;
 		}
 		else {
-			printf("¿À·ù, ½ºÅÃÀÌ °¡µæ Ã¡½À´Ï´Ù, pushAS()\n");
+			printf("ì˜¤ë¥˜, ìŠ¤íƒì´ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤, pushAS()\n");
 		}
 	}
 	return ret;
@@ -52,15 +48,15 @@ int pushAS(ArrayStack* pStack, ArrayStackNode element) {
 
 ArrayStackNode* popAS(ArrayStack* pStack) {
 	ArrayStackNode* pReturn = NULL;
-	if(pStack != NULL) {
-		if(isArrayStackEmpty(pStack) == FALSE) {
+	if (pStack != NULL) {
+		if (isArrayStackEmpty(pStack) == FALSE) {
 			pReturn = (ArrayStackNode *)malloc(sizeof(ArrayStackNode));
-			if(pReturn != NULL) {
-				*pReturn = pStack->pElement[pStack->currentElementCount-1];
+			if (pReturn != NULL) {
+				*pReturn = pStack->pElement[pStack->currentElementCount - 1];
 				pStack->currentElementCount--;
 			}
 			else {
-				printf("¿À·ù, ¸Ş¸ğ¸®ÇÒ´ç, popAS()\n");
+				printf("ì˜¤ë¥˜, ë©”ëª¨ë¦¬í• ë‹¹, popAS()\n");
 			}
 		}
 	}
@@ -69,17 +65,17 @@ ArrayStackNode* popAS(ArrayStack* pStack) {
 
 ArrayStackNode* peekAS(ArrayStack* pStack) {
 	ArrayStackNode* pReturn = NULL;
-	if(pStack != NULL) {
-		if(isArrayStackEmpty(pStack) == FALSE) {
-			pReturn = &(pStack->pElement[pStack->currentElementCount -1]);
+	if (pStack != NULL) {
+		if (isArrayStackEmpty(pStack) == FALSE) {
+			pReturn = &(pStack->pElement[pStack->currentElementCount - 1]);
 		}
 	}
 	return pReturn;
 }
 
 void deleteArrayStack(ArrayStack* pStack) {
-	if(pStack !=  NULL) {
-		if(pStack->pElement != NULL) {
+	if (pStack != NULL) {
+		if (pStack->pElement != NULL) {
 			free(pStack->pElement);
 		}
 		free(pStack);
@@ -89,8 +85,19 @@ void deleteArrayStack(ArrayStack* pStack) {
 int isArrayStackFull(ArrayStack* pStack) {
 	int ret = FALSE;
 
-	if(pStack != NULL) {
-		if(pStack->currentElementCount == pStack->maxElementCount) {
+	if (pStack != NULL) {
+		if (pStack->currentElementCount == pStack->maxElementCount) {
+			ret = TRUE;
+		}
+	}
+	return ret;
+}
+
+int isArrayStackEmpty(ArrayStack* pStack) {
+	int ret = FALSE;
+
+	if (pStack != NULL) {
+		if (pStack->currentElementCount == 0) {
 			ret = TRUE;
 		}
 	}
@@ -98,14 +105,17 @@ int isArrayStackFull(ArrayStack* pStack) {
 	return ret;
 }
 
-int isArrayStackEmpty(ArrayStack* pStack) {
-	int ret = FALSE;
-
-	if(pStack != NULL) {
-		if(pStack->currentElementCount == 0) {
-			ret = TRUE;
+void displayArrayStack(ArrayStack *pStack) {
+	int i = 0;
+	if (pStack != NULL) {
+		int size = pStack->maxElementCount;
+		int top = pStack->currentElementCount;
+		printf("ìŠ¤íƒ í¬ê¸°: %d, í˜„ì¬ ë…¸ë“œ ê°œìˆ˜: %d\n", pStack->maxElementCount, pStack->currentElementCount);
+		for (i = size - 1; i >= top; i--) {
+			printf("[%d]-[Empty]\n", i);
+		}
+		for (i = top - 1; i >= 0; i--) {
+			printf("[%d]-[%c]\n", i, pStack->pElement[i].data);
 		}
 	}
-
-	return ret;
 }
