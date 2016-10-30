@@ -1,64 +1,41 @@
-// ¿À·ù°¡ ³². Á¦´ë·ÎµÈ Ãâ·Â°á°ú°¡ ¾Æ´Ô .
-/*
 #include <stdio.h>
 #include <stdlib.h>
 #include "arraystack.h"
 
-void displayArrayStack(ArrayStack *pStack) {
-	int i = 0;
-	if(pStack != NULL) {
-		int size = pStack->maxElementCount;
-		int top = pStack->currentElementCount;
-
-		printf("½ºÅÃ Å©±â: %d, ÇöÀç ³ëµå °³¼ö: %d\n", pStack->maxElementCount, pStack->currentElementCount);
-
-		for(i = size-1; i >= top; i--) {
-			printf("[%d]-[Empty]\n", i);
-		}
-
-		for(i = top-1; i >= 0; i--) {
-			printf("[%d]-[%c]\n", i, pStack->pElement[i].data);
-		}
-	}
-}
-
 int main(int argc, char* argv[]) {
+	char value = 0;
 	ArrayStack *pStack = NULL;
 	ArrayStackNode *pNode = NULL;
-	char value = 0;
-
+	
 	pStack = createArrayStack(6);
-	if(pStack != NULL) {
-		ArrayStackNode node1 = {'A'};
-		ArrayStackNode node2 = {'B'};
-		ArrayStackNode node3 = {'C'};
-		ArrayStackNode node4 = {'D'};
 
+	if (pStack != NULL) {
+		ArrayStackNode node1 = { 'A' };
+		ArrayStackNode node2 = { 'B' };
+		ArrayStackNode node3 = { 'C' };
+		ArrayStackNode node4 = { 'D' };
 		pushAS(pStack, node1);
 		pushAS(pStack, node2);
 		pushAS(pStack, node3);
 		pushAS(pStack, node4);
 		displayArrayStack(pStack);
-
 		pNode = popAS(pStack);
-		if(pNode != NULL) {
-			printf("Pop °ª-[%c]\n", pNode->data);
+		if (pNode != NULL) {
+			printf("Pop ê°’-[%c]\n", pNode->data);
 			free(pNode);
 		}
 		else {
-			printf("°ø¹é(Empty) ½ºÅÃ\n");
+			printf("ê³µë°±(Empty) ìŠ¤íƒ\n");
 		}
 		displayArrayStack(pStack);
-
 		pNode = peekAS(pStack);
-		if(pNode != NULL) {
-			printf("Peek °ª - [%c]\n", pNode->data);
+		if (pNode != NULL) {
+			printf("Peek ê°’ - [%c]\n", pNode->data);
 		}
 		else {
-			printf("°ø¹é(Empty) ½ºÅÃ\n");
+			printf("ê³µë°±(Empty) ìŠ¤íƒ\n");
 		}
 		displayArrayStack(pStack);
 	}
 	return 0;
 }
-*/
